@@ -1,0 +1,354 @@
+/**
+ * Weekly To-Do List App - Custom Styles
+ * Author: Weekly Team
+ * Description: Custom CSS animations and utilities for the Weekly app
+ */
+
+/* ===========================
+   Custom Animations
+   =========================== */
+
+/* Fade in animation for page elements */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Slide in from right animation for tasks */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.animate-slide-in {
+    animation: slideInRight 0.4s ease-out forwards;
+}
+
+/* Slide out to left animation for task deletion */
+@keyframes slideOutLeft {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(-100px);
+    }
+}
+
+.animate-slide-out {
+    animation: slideOutLeft 0.3s ease-in forwards;
+}
+
+/* Pulse animation for urgent tasks */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Shake animation for validation errors */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+.animate-shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* ===========================
+   Custom Scrollbar
+   =========================== */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #00BB77;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #009960;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #00BB77 #f1f1f1;
+}
+
+/* ===========================
+   Task Card Styles
+   =========================== */
+
+.task-card {
+    transition: all 0.3s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 187, 119, 0.15);
+}
+
+/* Completed task styling */
+.task-completed {
+    opacity: 0.7;
+}
+
+.task-completed .task-title {
+    text-decoration: line-through;
+    color: #9CA3AF;
+}
+
+/* Urgent task indicator */
+.task-urgent {
+    border-left: 4px solid #EF4444;
+}
+
+.task-urgent::before {
+    content: '🔥';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+}
+
+/* ===========================
+   Checkbox Custom Styles
+   =========================== */
+
+.custom-checkbox {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #00BB77;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.custom-checkbox:hover {
+    background-color: rgba(0, 187, 119, 0.1);
+}
+
+.custom-checkbox:checked {
+    background-color: #00BB77;
+    border-color: #00BB77;
+}
+
+.custom-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* ===========================
+   Deadline Badge Styles
+   =========================== */
+
+.deadline-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.deadline-today {
+    background-color: #FEF3C7;
+    color: #D97706;
+}
+
+.deadline-past {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+
+.deadline-upcoming {
+    background-color: #DBEAFE;
+    color: #2563EB;
+}
+
+/* ===========================
+   Button Hover Effects
+   =========================== */
+
+.btn-delete {
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    transform: scale(1.1);
+}
+
+.btn-delete:active {
+    transform: scale(0.95);
+}
+
+/* ===========================
+   Loading Spinner
+   =========================== */
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    border: 3px solid rgba(0, 187, 119, 0.2);
+    border-top-color: #00BB77;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 0.8s linear infinite;
+}
+
+/* ===========================
+   Notification Permission Modal Overlay
+   =========================== */
+
+.modal-overlay {
+    backdrop-filter: blur(4px);
+}
+
+/* ===========================
+   Responsive Adjustments
+   =========================== */
+
+@media (max-width: 768px) {
+    .task-card {
+        padding: 1rem;
+    }
+    
+    .deadline-badge {
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+    }
+}
+
+/* ===========================
+   Print Styles
+   =========================== */
+
+@media print {
+    body {
+        background: white;
+    }
+    
+    header {
+        background: #00BB77 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+}
+
+/* ===========================
+   Focus Styles for Accessibility
+   =========================== */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid #00BB77;
+    outline-offset: 2px;
+}
+
+/* ===========================
+   Selection Color
+   =========================== */
+
+::selection {
+    background-color: #00BB77;
+    color: white;
+}
+
+::-moz-selection {
+    background-color: #00BB77;
+    color: white;
+}
+
+/* ===========================
+   Smooth Scrolling
+   =========================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===========================
+   Utilities
+   =========================== */
+
+.text-jade {
+    color: #00BB77;
+}
+
+.bg-jade {
+    background-color: #00BB77;
+}
+
+.border-jade {
+    border-color: #00BB77;
+}
+
+.hover\:bg-jade-dark:hover {
+    background-color: #009960;
+}
+
+.ring-jade {
+    --tw-ring-color: #00BB77;
+}
