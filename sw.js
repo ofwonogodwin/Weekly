@@ -35,7 +35,7 @@ const DYNAMIC_CACHE_LIMIT = 50;
  */
 self.addEventListener('install', (event) => {
     console.log('[Service Worker] Installing service worker...', event);
-    
+
     event.waitUntil(
         caches.open(STATIC_CACHE)
             .then((cache) => {
@@ -46,7 +46,7 @@ self.addEventListener('install', (event) => {
                 console.error('[Service Worker] Error during precaching:', error);
             })
     );
-    
+
     // Force the waiting service worker to become the active service worker
     self.skipWaiting();
 });
@@ -60,7 +60,7 @@ self.addEventListener('install', (event) => {
  */
 self.addEventListener('activate', (event) => {
     console.log('[Service Worker] Activating service worker...', event);
-    
+
     event.waitUntil(
         caches.keys()
             .then((cacheNames) => {
@@ -93,12 +93,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
     const { request } = event;
     const url = new URL(request.url);
-    
+
     // Skip cross-origin requests that aren't our CDN assets
     if (url.origin !== location.origin && !url.href.includes('cdn.tailwindcss.com')) {
         return;
     }
-    
+
     event.respondWith(
         caches.match(request)
             .then((cacheResponse) => {
@@ -107,13 +107,13 @@ self.addEventListener('fetch', (event) => {
                     console.log('[Service Worker] Serving from cache:', request.url);
                     return cacheResponse;
                 }
-                
+
                 // Otherwise fetch from network
                 return fetch(request)
                     .then((networkResponse) => {
                         // Clone the response
                         const responseClone = networkResponse.clone();
-                        
+
                         // Only cache successful responses
                         if (networkResponse.status === 200) {
                             caches.open(DYNAMIC_CACHE)
@@ -125,13 +125,13 @@ self.addEventListener('fetch', (event) => {
                                     console.error('[Service Worker] Error caching response:', error);
                                 });
                         }
-                        
+
                         console.log('[Service Worker] Serving from network:', request.url);
                         return networkResponse;
                     })
                     .catch((error) => {
                         console.error('[Service Worker] Fetch failed:', error);
-                        
+
                         // Return offline page if available
                         if (request.destination === 'document') {
                             return caches.match('/index.html');
@@ -151,7 +151,7 @@ self.addEventListener('fetch', (event) => {
  */
 self.addEventListener('sync', (event) => {
     console.log('[Service Worker] Background sync event:', event.tag);
-    
+
     if (event.tag === 'sync-tasks') {
         event.waitUntil(
             syncTasks()
@@ -179,14 +179,14 @@ async function syncTasks() {
  */
 self.addEventListener('push', (event) => {
     console.log('[Service Worker] Push notification received:', event);
-    
+
     let data = {
         title: 'Weekly Reminder',
         body: 'You have tasks due soon!',
         icon: '/icons/icon-192x192.png',
         badge: '/icons/icon-192x192.png'
     };
-    
+
     if (event.data) {
         try {
             data = event.data.json();
@@ -194,7 +194,7 @@ self.addEventListener('push', (event) => {
             console.error('[Service Worker] Error parsing push data:', error);
         }
     }
-    
+
     event.waitUntil(
         self.registration.showNotification(data.title, {
             body: data.body,
@@ -212,9 +212,9 @@ self.addEventListener('push', (event) => {
  */
 self.addEventListener('notificationclick', (event) => {
     console.log('[Service Worker] Notification clicked:', event);
-    
+
     event.notification.close();
-    
+
     // Open or focus the app
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true })
@@ -225,7 +225,7 @@ self.addEventListener('notificationclick', (event) => {
                         return client.focus();
                     }
                 }
-                
+
                 // Otherwise open a new window
                 if (clients.openWindow) {
                     return clients.openWindow('/');
@@ -244,7 +244,7 @@ self.addEventListener('notificationclick', (event) => {
 async function limitCacheSize(cacheName, maxItems) {
     const cache = await caches.open(cacheName);
     const keys = await cache.keys();
-    
+
     if (keys.length > maxItems) {
         // Delete the oldest entries (first in the array)
         const deleteCount = keys.length - maxItems;
@@ -274,11 +274,11 @@ async function clearAllCaches() {
  */
 self.addEventListener('message', (event) => {
     console.log('[Service Worker] Message received:', event.data);
-    
+
     if (event.data && event.data.type === 'SKIP_WAITING') {
         self.skipWaiting();
     }
-    
+
     if (event.data && event.data.type === 'CLEAR_CACHE') {
         event.waitUntil(
             clearAllCaches().then(() => {

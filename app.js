@@ -48,25 +48,25 @@ let notificationCheckInterval = null;
  */
 function init() {
     console.log('🚀 Weekly App Initializing...');
-    
+
     // Load tasks from localStorage
     loadTasks();
-    
+
     // Set up event listeners
     setupEventListeners();
-    
+
     // Check notification permission status
     checkNotificationPermission();
-    
+
     // Start notification checker
     startNotificationChecker();
-    
+
     // Render tasks
     renderTasks();
-    
+
     // Register service worker for PWA
     registerServiceWorker();
-    
+
     console.log('✅ Weekly App Ready!');
 }
 
@@ -76,7 +76,7 @@ function init() {
 function setupEventListeners() {
     // Form submission
     taskForm.addEventListener('submit', handleTaskSubmit);
-    
+
     // Notification button
     notificationBtn.addEventListener('click', requestNotificationPermission);
 }
@@ -120,28 +120,28 @@ function saveTasks() {
  */
 function handleTaskSubmit(e) {
     e.preventDefault();
-    
+
     // Get form values
     const title = taskTitle.value.trim();
     const description = taskDescription.value.trim();
     const date = taskDate.value;
     const time = taskTime.value;
-    
+
     // Validate
     if (!title || !date || !time) {
         showError('Please fill in all required fields');
         return;
     }
-    
+
     // Create deadline timestamp
     const deadline = new Date(`${date}T${time}`);
-    
+
     // Validate deadline is in the future
     if (deadline <= new Date()) {
         showError('Deadline must be in the future');
         return;
     }
-    
+
     // Create new task
     const newTask = {
         id: Date.now(),
@@ -153,22 +153,22 @@ function handleTaskSubmit(e) {
         notifiedBefore: false,
         notifiedAt: false
     };
-    
+
     // Add to tasks array
     tasks.push(newTask);
-    
+
     // Save to localStorage
     saveTasks();
-    
+
     // Render tasks
     renderTasks();
-    
+
     // Reset form
     taskForm.reset();
-    
+
     // Show success message
     showSuccess('Task added successfully! 🎉');
-    
+
     console.log('➕ New task added:', newTask);
 }
 
@@ -177,19 +177,19 @@ function handleTaskSubmit(e) {
  */
 function deleteTask(taskId) {
     const taskCard = document.querySelector(`[data-task-id="${taskId}"]`);
-    
+
     // Animate out
     if (taskCard) {
         taskCard.classList.add('animate-slide-out');
-        
+
         setTimeout(() => {
             // Remove from array
             tasks = tasks.filter(task => task.id !== taskId);
-            
+
             // Save and re-render
             saveTasks();
             renderTasks();
-            
+
             console.log('🗑️ Task deleted:', taskId);
         }, 300);
     }
@@ -200,12 +200,12 @@ function deleteTask(taskId) {
  */
 function toggleTaskComplete(taskId) {
     const task = tasks.find(t => t.id === taskId);
-    
+
     if (task) {
         task.completed = !task.completed;
         saveTasks();
         renderTasks();
-        
+
         console.log(`✅ Task ${task.completed ? 'completed' : 'uncompleted'}:`, taskId);
     }
 }
@@ -234,26 +234,26 @@ function sortTasksByDeadline() {
 function renderTasks() {
     // Sort tasks
     sortTasksByDeadline();
-    
+
     // Clear task list
     tasksList.innerHTML = '';
-    
+
     // Show/hide empty state
     if (tasks.length === 0) {
         emptyState.style.display = 'block';
     } else {
         emptyState.style.display = 'none';
-        
+
         // Render each task
         tasks.forEach((task, index) => {
             const taskCard = createTaskCard(task, index);
             tasksList.appendChild(taskCard);
         });
     }
-    
+
     // Update progress
     updateProgress();
-    
+
     // Update task count
     taskCount.textContent = `${tasks.length} task${tasks.length !== 1 ? 's' : ''}`;
 }
@@ -266,16 +266,16 @@ function createTaskCard(task, index) {
     card.className = `task-card bg-white rounded-xl shadow-md p-5 relative animate-slide-in ${task.completed ? 'task-completed' : ''}`;
     card.style.animationDelay = `${index * 0.05}s`;
     card.setAttribute('data-task-id', task.id);
-    
+
     const deadline = new Date(task.deadline);
     const now = new Date();
     const timeUntil = deadline - now;
     const hoursUntil = timeUntil / (1000 * 60 * 60);
-    
+
     // Determine deadline status
     let deadlineClass = 'deadline-upcoming';
     let deadlineText = formatDeadline(deadline);
-    
+
     if (timeUntil < 0 && !task.completed) {
         deadlineClass = 'deadline-past';
         deadlineText = '⚠️ Overdue';
@@ -284,7 +284,7 @@ function createTaskCard(task, index) {
         deadlineClass = 'deadline-today';
         deadlineText = `⏰ ${deadlineText}`;
     }
-    
+
     card.innerHTML = `
         <div class="flex items-start gap-4">
             <!-- Checkbox -->
@@ -329,7 +329,7 @@ function createTaskCard(task, index) {
             </button>
         </div>
     `;
-    
+
     return card;
 }
 
@@ -340,7 +340,7 @@ function updateProgress() {
     const total = tasks.length;
     const completed = tasks.filter(t => t.completed).length;
     const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
-    
+
     // Update DOM
     totalCount.textContent = total;
     completedCount.textContent = completed;
@@ -362,9 +362,9 @@ function checkNotificationPermission() {
         notificationBtnText.textContent = 'Not Supported';
         return;
     }
-    
+
     const permission = Notification.permission;
-    
+
     if (permission === 'granted') {
         notificationBtnText.textContent = 'Notifications On ✓';
         notificationBtn.classList.add('bg-jade-dark');
@@ -384,24 +384,24 @@ async function requestNotificationPermission() {
         showError('This browser does not support notifications');
         return;
     }
-    
+
     if (Notification.permission === 'granted') {
         showSuccess('Notifications are already enabled! 🔔');
         return;
     }
-    
+
     if (Notification.permission === 'denied') {
         showError('Notifications are blocked. Please enable them in your browser settings.');
         return;
     }
-    
+
     try {
         const permission = await Notification.requestPermission();
-        
+
         if (permission === 'granted') {
             showSuccess('Notifications enabled successfully! 🔔');
             checkNotificationPermission();
-            
+
             // Send a test notification
             sendNotification('Weekly App', {
                 body: 'You will now receive reminders for your tasks!',
@@ -427,13 +427,13 @@ function sendNotification(title, options) {
             vibrate: [200, 100, 200],
             ...options
         });
-        
+
         // Click handler to focus the app
         notification.onclick = () => {
             window.focus();
             notification.close();
         };
-        
+
         console.log('🔔 Notification sent:', title);
     }
 }
@@ -443,33 +443,33 @@ function sendNotification(title, options) {
  */
 function checkForReminders() {
     const now = new Date();
-    
+
     tasks.forEach(task => {
         // Skip completed tasks
         if (task.completed) return;
-        
+
         const deadline = new Date(task.deadline);
         const timeUntil = deadline - now;
         const minutesUntil = timeUntil / (1000 * 60);
-        
+
         // Check if we should send 10-minute warning
         if (minutesUntil <= REMINDER_BEFORE_MINUTES && minutesUntil > 0 && !task.notifiedBefore) {
             sendNotification('⏰ Task Reminder', {
                 body: `"${task.title}" is due in ${Math.ceil(minutesUntil)} minutes!`,
                 tag: `reminder-before-${task.id}`
             });
-            
+
             task.notifiedBefore = true;
             saveTasks();
         }
-        
+
         // Check if deadline has arrived
         if (timeUntil <= 0 && timeUntil > -60000 && !task.notifiedAt) {
             sendNotification('🚨 Task Deadline!', {
                 body: `"${task.title}" is due now!`,
                 tag: `reminder-at-${task.id}`
             });
-            
+
             task.notifiedAt = true;
             saveTasks();
         }
@@ -482,10 +482,10 @@ function checkForReminders() {
 function startNotificationChecker() {
     // Check immediately
     checkForReminders();
-    
+
     // Then check every minute
     notificationCheckInterval = setInterval(checkForReminders, REMINDER_INTERVAL);
-    
+
     console.log('⏰ Notification checker started');
 }
 
@@ -517,31 +517,31 @@ async function registerServiceWorker() {
 function formatDeadline(date) {
     const now = new Date();
     const deadline = new Date(date);
-    
+
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const deadlineDay = new Date(deadline.getFullYear(), deadline.getMonth(), deadline.getDate());
-    
+
     let dateStr;
     if (deadlineDay.getTime() === today.getTime()) {
         dateStr = 'Today';
     } else if (deadlineDay.getTime() === tomorrow.getTime()) {
         dateStr = 'Tomorrow';
     } else {
-        dateStr = deadline.toLocaleDateString('en-US', { 
-            month: 'short', 
+        dateStr = deadline.toLocaleDateString('en-US', {
+            month: 'short',
             day: 'numeric',
             year: deadline.getFullYear() !== now.getFullYear() ? 'numeric' : undefined
         });
     }
-    
-    const timeStr = deadline.toLocaleTimeString('en-US', { 
-        hour: 'numeric', 
+
+    const timeStr = deadline.toLocaleTimeString('en-US', {
+        hour: 'numeric',
         minute: '2-digit',
-        hour12: true 
+        hour12: true
     });
-    
+
     return `${dateStr} at ${timeStr}`;
 }
 
