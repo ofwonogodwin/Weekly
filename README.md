@@ -1,4 +1,5 @@
 # 📋 Weekly - Your Weekly To-Do List App
+### Still Cooking
 
 <div align="center">
   <img src="icons/icon-192x192.png" alt="Weekly Logo" width="120" />
