@@ -1,91 +1,38 @@
 # 📋 Weekly - Your Weekly To-Do List App
-### Still Cooking
+## Features
 
-<div align="center">
-  <img src="icons/icon-192x192.png" alt="Weekly Logo" width="120" />
-  <p><strong>A beautiful, simple weekly to-do list web app</strong></p>
-  <p>
-    <a href="#features">Features</a> •
-    <a href="#installation">Installation</a> •
-    <a href="#usage">Usage</a> •
-    <a href="#pwa">PWA</a> •
-    <a href="#development">Development</a>
-  </p>
-</div>
+### Task Management
+- **Add Tasks**: Create tasks with title, description, and deadline
+- **Date & Time Deadlines**: Set precise deadlines with date and time
+- **Mark as Complete**: Check off completed tasks
+- **Delete Tasks**: Remove tasks you no longer need
+- **Auto-Sort**: Tasks automatically sorted by nearest deadlines
 
----
+### Progress Tracking
+- **Progress Bar**: Visual representation of weekly progress
+- **Percentage Display**: See completion percentage at a glance
+- **Task Counter**: Track completed vs total tasks
 
-## ✨ Features
+### Smart Reminders
+- **10-Minute Warning**: Get notified 10 minutes before deadline
+- **Deadline Alert**: Notification when task is due
+- **Permission-Based**: Respects user notification preferences
+- **No Repeat Spam**: Each reminder sent only once
 
-### 🎯 Task Management
-- ✅ **Add Tasks**: Create tasks with title, description, and deadline
-- 📅 **Date & Time Deadlines**: Set precise deadlines with date and time
-- ✔️ **Mark as Complete**: Check off completed tasks
-- 🗑️ **Delete Tasks**: Remove tasks you no longer need
-- 🔄 **Auto-Sort**: Tasks automatically sorted by nearest deadlines
+### Data Persistence
+- **LocalStorage**: All tasks saved locally
+- **Auto-Save**: Tasks automatically saved on every change
+- **Offline First**: Works without internet connection
 
-### 📊 Progress Tracking
-- 📈 **Progress Bar**: Visual representation of weekly progress
-- 📉 **Percentage Display**: See completion percentage at a glance
-- 📝 **Task Counter**: Track completed vs total tasks
+### PWA Features
+- **Installable**: Add to home screen on mobile/desktop
+- **Offline Support**: Full functionality without internet
+- **Fast Loading**: Service worker caching for instant loads
+- **Background Sync**: Sync tasks when connection restored
 
-### 🔔 Smart Reminders
-- ⏰ **10-Minute Warning**: Get notified 10 minutes before deadline
-- 🚨 **Deadline Alert**: Notification when task is due
-- 🔕 **Permission-Based**: Respects user notification preferences
-- 💾 **No Repeat Spam**: Each reminder sent only once
+## Installation
 
-### 💎 Beautiful UI
-- 🎨 **Jade Green Theme**: Calming #00BB77 color scheme
-- 🌊 **Smooth Animations**: Delightful transitions and effects
-- 📱 **Responsive Design**: Works perfectly on all devices
-- 🌓 **Modern Cards**: Clean, card-based layout
-
-### 💾 Data Persistence
-- 🔒 **LocalStorage**: All tasks saved locally
-- 🔄 **Auto-Save**: Tasks automatically saved on every change
-- 📴 **Offline First**: Works without internet connection
-
-### 📱 PWA Features
-- 🏠 **Installable**: Add to home screen on mobile/desktop
-- 📴 **Offline Support**: Full functionality without internet
-- ⚡ **Fast Loading**: Service worker caching for instant loads
-- 🔄 **Background Sync**: Sync tasks when connection restored
-
----
-
-## 🚀 Installation
-
-### Quick Start (No Installation Required)
-1. Simply open `index.html` in your web browser
-2. Start adding tasks immediately!
-
-### Run with Local Server (Recommended for PWA)
-```bash
-# Using Python 3
-cd Weekly
-python3 -m http.server 8000
-
-# Using Node.js (with npx)
-cd Weekly
-npx serve
-
-# Using PHP
-cd Weekly
-php -S localhost:8000
-```
-
-Then open: `http://localhost:8000`
-
-### Install as PWA
-1. Open the app in Chrome/Edge/Safari
-2. Look for "Install" button in the address bar
-3. Click to install as a native app
-4. Launch from your app drawer/desktop
-
----
-
-## 📖 Usage
+## Usage
 
 ### Adding a Task
 1. Fill in the **Task Title** (required)
