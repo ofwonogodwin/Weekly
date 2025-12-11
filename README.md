@@ -1,4 +1,4 @@
-# 📋 Weekly - Your Weekly To-Do List App
+# Weekly - Your Weekly To-Do List App
 ## Features
 
 ### Task Management
