@@ -58,7 +58,7 @@
 - See **percentage completed**
 - Track **completed vs total tasks**
 - 
-## 🔔 Notification System
+## Notification System
 
 ### How It Works
 1. **Permission Request**: App requests notification permission on button click
@@ -68,21 +68,21 @@
 5. **No Duplicates**: Each notification sent only once per task
 
 ### Offline Functionality
-- ✅ View all tasks
-- ✅ Add new tasks
-- ✅ Complete tasks
-- ✅ Delete tasks
-- ✅ Full UI functionality
-- ✅ Notifications work offline
+- View all tasks
+- Add new tasks
+- Complete tasks
+- Delete tasks
+- Full UI functionality
+- Notifications work offline
 
 
 
 ## 👨‍💻 Author
 
-**Godwin Ofwono**  
+**Godwin Ofwono-- GCE**  
 Built with ❤️ for productivity enthusiasts
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - TailwindCSS for the amazing utility framework
 - MDN Web Docs for excellent API documentation
