@@ -1,5 +1,5 @@
 # Weekly - Your Weekly To-Do List App
-We are still cooking guys
+We are still cooking guys. Soon
 ## Features
 
 ### Task Management
